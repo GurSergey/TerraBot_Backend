@@ -11,7 +11,7 @@ public class Main {
             MainServlet allRequestsServlet = new MainServlet();
 
             ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-            context.addServlet(new ServletHolder(allRequestsServlet), "/*");
+            context.addServlet(new ServletHolder(allRequestsServlet), "/test");
 
             Server server = new Server(8081);
             server.setHandler(context);
