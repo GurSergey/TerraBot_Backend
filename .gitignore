@@ -6,3 +6,11 @@
 
 log/
 target/
+
+# compiled output
+/app/dist
+/app/tmp
+/app/out-tsc
+
+# dependencies
+/app/node_modules
