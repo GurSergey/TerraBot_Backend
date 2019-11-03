@@ -1,19 +1,27 @@
 package main;
 
+import controllers.MappingServlet;
+import servlets.MainServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import servlets.MainServlet;
 
 public class Main {
+        public static void configServlets()
+        {
+
+        }
+
 
         public static void main(String[] args) throws Exception {
-            MainServlet allRequestsServlet = new MainServlet();
+            MappingServlet allRequestsServlet = new MappingServlet();
+
 
             ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-            context.addServlet(new ServletHolder(allRequestsServlet), "/test");
+            context.addServlet(new ServletHolder(allRequestsServlet), "/*");
 
-            Server server = new Server(8081);
+
+            Server server = new Server(9001);
             server.setHandler(context);
 
             server.start();
