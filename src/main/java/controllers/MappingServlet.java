@@ -1,8 +1,11 @@
 package controllers;
 
 import org.apache.commons.text.WordUtils;
+import org.eclipse.jetty.server.Request;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 
 public class MappingServlet extends HttpServlet {
     private final String NAME_PACKAGE_OF_CONTROLLERS = "controllers";
@@ -30,6 +34,8 @@ public class MappingServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        MultipartConfigElement multipartConfigElement = new MultipartConfigElement((String)null);
+        req.setAttribute(Request.__MULTIPART_CONFIG_ELEMENT, multipartConfigElement);
         String routeString = req.getRequestURI();
         ArrayList<String> route = new ArrayList(Arrays.asList(routeString.split("/")));
         route.remove(0);
