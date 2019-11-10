@@ -1,4 +1,4 @@
-package structs;
+package entity;
 
 public class Pupil {
     public int id;

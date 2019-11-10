@@ -2,14 +2,12 @@ package entity;
 
 import com.sun.istack.NotNull;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Entity
-@Table(name = "pupil")
-public class PupilEntity {
-    public PupilEntity() {
-    }
-
+public class TeacherEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
@@ -26,5 +24,4 @@ public class PupilEntity {
     @Column(name = "token")
     @NotNull
     public String token;
-
 }

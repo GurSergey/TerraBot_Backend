@@ -4,7 +4,6 @@ import entity.PupilEntity;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import structs.Pupil;
 
 public class HibernateSessionFactory {
     private static SessionFactory sessionFactory;

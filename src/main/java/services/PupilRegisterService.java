@@ -2,7 +2,6 @@ package services;
 
 import entity.PupilEntity;
 import org.hibernate.Session;
-import structs.Pupil;
 
 public class PupilRegisterService {
     public void register(PupilEntity pupil){
