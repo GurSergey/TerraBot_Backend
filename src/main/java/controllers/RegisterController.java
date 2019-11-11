@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entity.PupilEntity;
 import services.PupilRegisterService;
-import entity.Pupil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,13 +12,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class RegisterController extends Controller {
-    public void methodPupil(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public void methodPupilRegistry(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String pupilString =  req.getParameter("pupil");
-        String test = req.getQueryString();
+
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        PupilRegisterService service = new PupilRegisterService();
-        service.register(new PupilEntity());
+        PupilEntity pupilEntity = gson.fromJson(pupilString, PupilEntity.class);
+        gson.toJson(pupilEntity);
         PrintWriter out = resp.getWriter();
         out.print("Hello");
     }

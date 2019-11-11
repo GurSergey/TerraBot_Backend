@@ -3,9 +3,10 @@ package entity;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "pupil")
+@Table(name = "pupils")
 public class PupilEntity {
     public PupilEntity() {
     }
@@ -26,5 +27,11 @@ public class PupilEntity {
     @Column(name = "token")
     @NotNull
     public String token;
+    @OneToOne(mappedBy = "pupil")
+    @JoinColumn(name = "teacher_id")
+    public TeacherEntity teacher;
+    @ManyToMany(mappedBy = "tasks")
+    public List<TaskEntity> tasks;
 
+    public List<IssueEntity> issues;
 }

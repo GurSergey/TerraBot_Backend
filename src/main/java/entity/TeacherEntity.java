@@ -2,11 +2,10 @@ package entity;
 
 import com.sun.istack.NotNull;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import javax.persistence.*;
+import java.util.List;
+@Entity
+@Table(name = "teachers")
 public class TeacherEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +23,6 @@ public class TeacherEntity {
     @Column(name = "token")
     @NotNull
     public String token;
+    @OneToMany(mappedBy = "teacher_id")
+    public List<PupilEntity> pupils;
 }
