@@ -1,44 +1,49 @@
 package services;
+import entity.AbstractEntity;
 import entity.EntityHibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class RepositoryDB<T extends EntityHibernate> {
+public class RepositoryDB implements Repository {
 
-    private Class<T> clazz;
-    public RepositoryDB(Class<T> type)
-    {
-        clazz = type;
-    }
+//    private Class<T> clazz;
+//    public RepositoryDB(Class<T> type)
+//    {
+//        clazz = type;
+//    }
 
-    public T findById(int id) {
-        return HibernateSessionFactory.getSessionFactory().openSession().get(clazz, id);
-    }
 
-    public void save(T entity) {
+
+    @Override
+    public void save(AbstractEntity entity) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.save(entity);
         transaction.commit();
         session.close();
     }
-
-    public void update(T entity) {
+    @Override
+    public void update(AbstractEntity entity) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.update(entity);
         transaction.commit();
         session.close();
     }
-
-    public void delete(T entity) {
+    @Override
+    public void delete(AbstractEntity entity) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(entity);
         transaction.commit();
         session.close();
+    }
+
+    @Override
+    public AbstractEntity findById(int id) {
+        return null;
     }
 
 }

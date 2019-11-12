@@ -1,4 +1,4 @@
 package entity;
 
-public interface EntityHibernate {
+public interface EntityHibernate extends AbstractEntity {
 }
