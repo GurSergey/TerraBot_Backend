@@ -29,6 +29,6 @@ public class ClassJournalService {
 
     }
 
-    public void setMark(int idTask, int idPupil, int mark)
+    public void setMark(int idIssue, int mark)
     {}
 }

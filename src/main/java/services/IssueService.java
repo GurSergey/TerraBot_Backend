@@ -7,7 +7,6 @@ public class IssueService {
     {
 
     }
-
     public void saveIssue(int idPupil, IssueEntity issue){
 
     }

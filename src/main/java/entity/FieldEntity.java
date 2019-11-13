@@ -6,6 +6,7 @@ import javax.persistence.OneToMany;
 import java.util.List;
 
 public class FieldEntity {
+    public int id;
      public int width;
      public int height;
      @OneToMany(mappedBy = "field_id")
