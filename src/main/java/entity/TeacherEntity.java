@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 @Entity
 @Table(name = "teachers")
-public class TeacherEntity {
+public class TeacherEntity implements EntityHibernate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;

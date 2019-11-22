@@ -1,6 +1,6 @@
 package entity;
 
-public class CommandEntity {
+public class CommandEntity implements EntityHibernate {
     public int id;
     public int type;
     public int number;

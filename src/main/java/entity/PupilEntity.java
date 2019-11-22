@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pupils")
-public class PupilEntity {
+public class PupilEntity implements EntityHibernate {
     public PupilEntity() {
     }
 

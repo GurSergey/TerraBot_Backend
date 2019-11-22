@@ -1,5 +1,8 @@
 package config;
 
-public class Config {
+import services.Repository;
+import services.RepositoryDB;
 
+public class Config {
+   // private static final  clazz = RepositoryDB.;
 }

@@ -5,7 +5,7 @@ import org.hibernate.annotations.ManyToAny;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-public class FieldEntity {
+public class FieldEntity implements EntityHibernate  {
     public int id;
      public int width;
      public int height;

@@ -18,8 +18,9 @@ public class RegisterController extends Controller {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         PupilEntity pupilEntity = gson.fromJson(pupilString, PupilEntity.class);
-        gson.toJson(pupilEntity);
+        PupilRegisterService service = new PupilRegisterService();
+        service.register();
         PrintWriter out = resp.getWriter();
-        out.print("Hello");
+        out.print("ok");
     }
 }

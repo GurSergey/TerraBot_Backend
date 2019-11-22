@@ -1,10 +1,11 @@
 package services;
 
 import entity.AbstractEntity;
+import entity.EntityHibernate;
 
-interface Repository<T extends AbstractEntity> {
-    public void save(AbstractEntity entity);
-    public void update(AbstractEntity entity);
-    public void delete(AbstractEntity entity);
+public interface Repository<T extends EntityHibernate> {
+    public void save(T entity);
+    public void update(T entity);
+    public void delete(T entity);
     public AbstractEntity findById(int id);
 }

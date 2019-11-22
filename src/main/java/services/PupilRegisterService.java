@@ -1,11 +1,14 @@
 package services;
 
 import entity.PupilEntity;
-import org.hibernate.Session;
 
-public class PupilRegisterService {
-    public void register(String name, String password, String login){
+public class PupilRegisterService extends AbstractService {
+    public PupilRegisterService(Repository<entity.EntityHibernate> repository) {
+        super(repository);
+    }
 
+    public void register(PupilEntity pupilEntity){
+        this.repository.save(pupilEntity);
     }
 
 }

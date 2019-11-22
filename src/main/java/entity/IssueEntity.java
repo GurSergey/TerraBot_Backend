@@ -3,7 +3,7 @@ package entity;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-public class IssueEntity {
+public class IssueEntity implements EntityHibernate {
     public int id;
     public int mark;
     public boolean completed;

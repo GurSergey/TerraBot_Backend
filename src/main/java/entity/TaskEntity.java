@@ -6,7 +6,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.util.List;
 
-public class TaskEntity {
+public class TaskEntity implements EntityHibernate {
     public int id;
     public String description;
     public int difficulty;
