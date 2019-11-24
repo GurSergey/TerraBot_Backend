@@ -8,11 +8,11 @@ import java.util.List;
 
 public class RepositoryDB <T> implements Repository {
 
-//    private Class<T> clazz;
-//    public RepositoryDB(Class<T> type)
-//    {
-//        clazz = type;
-//    }
+    private Class<T> clazz;
+    public RepositoryDB(Class<T> type)
+    {
+        clazz = type;
+    }
 
 
 
@@ -47,7 +47,8 @@ public class RepositoryDB <T> implements Repository {
 
     @Override
     public AbstractEntity findById(int id) {
-        return null;
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        return (AbstractEntity) session.get(clazz, id);
     }
 
 }

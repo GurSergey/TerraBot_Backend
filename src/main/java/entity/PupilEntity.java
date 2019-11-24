@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "pupil")
-public class PupilEntity implements EntityHibernate {
+public class PupilEntity extends UserEntity implements EntityHibernate {
     public PupilEntity() {
     }
 
@@ -24,7 +24,7 @@ public class PupilEntity implements EntityHibernate {
     public String avatar;
     @Column(name = "login", unique = true)
     public String login;
-    @Column(name = "token")
+    @Column(name = "token", unique = true)
     @NotNull
     public String token;
     @ManyToOne

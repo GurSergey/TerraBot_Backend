@@ -8,6 +8,7 @@ public class PupilRegisterService extends AbstractService {
     }
 
     public void register(PupilEntity pupilEntity){
+        pupilEntity.token = AuthService.generateToken();
         this.repository.save(pupilEntity);
     }
 

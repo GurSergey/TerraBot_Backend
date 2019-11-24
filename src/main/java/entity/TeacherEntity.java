@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 @Entity
 @Table(name = "teacher")
-public class TeacherEntity implements EntityHibernate {
+public class TeacherEntity extends UserEntity implements EntityHibernate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
@@ -20,7 +20,7 @@ public class TeacherEntity implements EntityHibernate {
     public String avatar;
     @Column(name = "login", unique = true)
     public String login;
-    @Column(name = "token")
+    @Column(name = "token", unique = true)
     @NotNull
     public String token;
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
