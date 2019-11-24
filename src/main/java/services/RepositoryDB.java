@@ -17,7 +17,7 @@ public class RepositoryDB <T> implements Repository {
 
 
     @Override
-    public void save(EntityHibernate entity) {
+    public void save(AbstractEntity entity) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.save(entity);
@@ -27,7 +27,7 @@ public class RepositoryDB <T> implements Repository {
 
 
     @Override
-    public void update(EntityHibernate entity) {
+    public void update(AbstractEntity entity) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.update(entity);
@@ -35,7 +35,7 @@ public class RepositoryDB <T> implements Repository {
         session.close();
     }
     @Override
-    public void delete(EntityHibernate entity) {
+    public void delete(AbstractEntity entity) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.delete(entity);

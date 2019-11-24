@@ -1,17 +1,31 @@
 package entity;
 
-import javax.persistence.OneToMany;
-import java.util.List;
+import com.sun.istack.NotNull;
 
+import javax.persistence.*;
+import java.util.List;
+@Entity
+@Table(name = "issue")
 public class IssueEntity implements EntityHibernate {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id;
+    @Column(name = "mark")
     public int mark;
+    @Column(name = "completed")
+    @NotNull
     public boolean completed;
-    public PupilEntity owner;
+    @ManyToOne
+    @JoinColumn(name = "pupil_id")
+    public PupilEntity pupil;
+    @OneToOne
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
     public TaskEntity task;
-    @OneToMany(mappedBy = "teacher")
-    public List<PupilEntity> commands;
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<CommandEntity> commands;
+    @Column(name = "count_command")
     public int countCommand;
+    @Column(name = "count_step")
     public int countStep;
 
 }

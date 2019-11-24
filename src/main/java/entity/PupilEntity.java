@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "pupils")
+@Table(name = "pupil")
 public class PupilEntity implements EntityHibernate {
     public PupilEntity() {
     }
@@ -22,16 +22,21 @@ public class PupilEntity implements EntityHibernate {
     public String password;
     @Column(name = "avatar")
     public String avatar;
-    @Column(name = "login")
+    @Column(name = "login", unique = true)
     public String login;
     @Column(name = "token")
     @NotNull
     public String token;
-    @OneToOne(mappedBy = "pupil")
+    @ManyToOne
     @JoinColumn(name = "teacher_id")
     public TeacherEntity teacher;
-    @ManyToMany(mappedBy = "tasks")
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "pupil_to_task",
+            joinColumns = { @JoinColumn(name = "pupil_id") },
+            inverseJoinColumns = { @JoinColumn(name = "task_id") }
+    )
     public List<TaskEntity> tasks;
-
+    @OneToMany(mappedBy = "pupil", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<IssueEntity> issues;
 }

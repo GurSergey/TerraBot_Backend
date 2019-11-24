@@ -5,7 +5,7 @@ import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.util.List;
 @Entity
-@Table(name = "teachers")
+@Table(name = "teacher")
 public class TeacherEntity implements EntityHibernate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,11 +18,11 @@ public class TeacherEntity implements EntityHibernate {
     public String password;
     @Column(name = "avatar")
     public String avatar;
-    @Column(name = "login")
+    @Column(name = "login", unique = true)
     public String login;
     @Column(name = "token")
     @NotNull
     public String token;
-    @OneToMany(mappedBy = "teacher_id")
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     public List<PupilEntity> pupils;
 }

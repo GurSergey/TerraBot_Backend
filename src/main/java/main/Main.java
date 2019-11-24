@@ -1,7 +1,7 @@
 package main;
 
+import config.Config;
 import controllers.MappingServlet;
-import servlets.MainServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -14,6 +14,8 @@ public class Main {
 
 
         public static void main(String[] args) throws Exception {
+
+
             MappingServlet allRequestsServlet = new MappingServlet();
 
 
@@ -21,7 +23,7 @@ public class Main {
             context.addServlet(new ServletHolder(allRequestsServlet), "/*");
 
 
-            Server server = new Server(9001);
+            Server server = new Server(Config.PORT);
             server.setHandler(context);
 
             server.start();
