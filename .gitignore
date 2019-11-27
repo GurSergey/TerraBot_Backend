@@ -6,7 +6,7 @@
 
 log/
 target/
-
+postgres-data/
 # compiled output
 /app/dist
 /app/tmp

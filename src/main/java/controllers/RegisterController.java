@@ -5,8 +5,11 @@ import com.google.gson.GsonBuilder;
 import config.Config;
 import entity.EntityHibernate;
 import entity.PupilEntity;
+import entity.TeacherEntity;
 import services.PupilRegisterService;
 import services.Repository;
+import services.RepositoryDB;
+import services.TeacherRegisterService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,17 +19,29 @@ import java.io.PrintWriter;
 
 public class RegisterController extends Controller {
     private static String NAME_PUPIL_PARAM = "pupil";
+    private static String NAME_TEACHER_PARAM = "teacher";
 
     public void methodPupilRegistry(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String pupilString =  req.getParameter(NAME_PUPIL_PARAM);
-
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         PupilEntity pupilEntity = gson.fromJson(pupilString, PupilEntity.class);
         PupilRegisterService pupilRegisterService = new PupilRegisterService(
-                (Repository<EntityHibernate>) Config.serviceLocator.getInstance(Repository.class));
+                new RepositoryDB(PupilEntity.class));
         pupilRegisterService.register(pupilEntity);
         this.sendStandartAnswer(resp);
-
     }
+
+    public void methodTeacherRegistry(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String pupilString =  req.getParameter(NAME_TEACHER_PARAM);
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        TeacherEntity teacherEntity = gson.fromJson(pupilString, TeacherEntity.class);
+        TeacherRegisterService teacherRegisterService = new TeacherRegisterService(
+                new RepositoryDB(TeacherEntity.class));
+        teacherRegisterService.register(teacherEntity);
+        this.sendStandartAnswer(resp);
+    }
+
+
 }

@@ -3,7 +3,7 @@ package services;
 import entity.PupilEntity;
 
 public class PupilRegisterService extends AbstractService {
-    public PupilRegisterService(Repository<entity.EntityHibernate> repository) {
+    public PupilRegisterService(Repository<PupilEntity> repository) {
         super(repository);
     }
 

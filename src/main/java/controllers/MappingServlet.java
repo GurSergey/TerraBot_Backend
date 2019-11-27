@@ -64,11 +64,14 @@ public class MappingServlet extends HttpServlet {
         {
             this.routeUnknown(resp);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            PrintWriter out = resp.getWriter();
+            out.print(e.toString());
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            PrintWriter out = resp.getWriter();
+            out.print(e.toString());
         } catch (InstantiationException e) {
-            e.printStackTrace();
+            PrintWriter out = resp.getWriter();
+            out.print(e.toString());
         }
 
 

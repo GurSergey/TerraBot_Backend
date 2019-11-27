@@ -11,3 +11,5 @@ services:
       POSTGRES_USER: terrabot
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: terrabot
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

@@ -7,7 +7,11 @@ import entity.UserEntity;
 
 import java.util.Random;
 
-public class AuthService {
+public class AuthService extends AbstractService {
+    public AuthService(Repository<PupilEntity> repository) {
+        super(repository);
+    }
+
     public static String generateToken()
     {
         StringBuilder randString = new StringBuilder();
@@ -18,9 +22,24 @@ public class AuthService {
         return randString.toString();
     }
 
-    public String signIn(String login, String password)
+
+
+    public String signInPupil(String login, String password)
     {
-        return "123";
+        SpecificationCriterion[] criterions = new SpecificationCriterion[]{
+          new SpecificationCriterion("login", login),
+          new SpecificationCriterion("password", password)
+        };
+        return ((PupilEntity)this.repository.specificObject(criterions)).token;
+    }
+
+    public String signInTeacher(String login, String password)
+    {
+        SpecificationCriterion[] criterions = new SpecificationCriterion[]{
+                new SpecificationCriterion("login", login),
+                new SpecificationCriterion("password", password)
+        };
+        return ((TeacherEntity)this.repository.specificObject(criterions)).token;
     }
 
     public boolean checkToken(String token)
@@ -30,11 +49,17 @@ public class AuthService {
 
     public TeacherEntity getTeacherByToken(String token)
     {
-        return null;
+        SpecificationCriterion[] criterions = new SpecificationCriterion[]{
+                new SpecificationCriterion("token", token)
+        };
+        return ((TeacherEntity)this.repository.specificObject(criterions));
     }
 
     public PupilEntity getPupilByToken(String token)
     {
-        return null;
+        SpecificationCriterion[] criterions = new SpecificationCriterion[]{
+                new SpecificationCriterion("token", token)
+        };
+        return ((PupilEntity)this.repository.specificObject(criterions));
     }
 }
