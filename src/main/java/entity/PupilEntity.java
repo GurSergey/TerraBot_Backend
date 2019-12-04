@@ -11,22 +11,6 @@ public class PupilEntity extends UserEntity implements EntityHibernate {
     public PupilEntity() {
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
-    @Column(name = "name")
-    @NotNull
-    public String name;
-    @Column(name = "password")
-    @NotNull
-    public String password;
-    @Column(name = "avatar")
-    public String avatar;
-    @Column(name = "login", unique = true)
-    public String login;
-    @Column(name = "token", unique = true)
-    @NotNull
-    public String token;
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     public TeacherEntity teacher;

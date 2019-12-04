@@ -10,6 +10,15 @@ import java.util.Map;
 
 public abstract class Controller {
     public static String STANDART_ANSWER = "ok";
+
+    protected Gson jsonGetterObject;
+
+    Controller()
+    {
+        GsonBuilder builder = new GsonBuilder();
+        Gson jsonGetterObject = builder.create();
+    }
+
     private class Answer
     {
         public String status = "ok";

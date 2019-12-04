@@ -22,44 +22,32 @@ public class AuthService extends AbstractService {
         return randString.toString();
     }
 
-
-
-    public String signInPupil(String login, String password)
+    public String signIn(String login, String password)
     {
-        SpecificationCriterion[] criterions = new SpecificationCriterion[]{
-          new SpecificationCriterion("login", login),
-          new SpecificationCriterion("password", password)
-        };
-        return ((PupilEntity)this.repository.specificObject(criterions)).token;
-    }
-
-    public String signInTeacher(String login, String password)
-    {
-        SpecificationCriterion[] criterions = new SpecificationCriterion[]{
-                new SpecificationCriterion("login", login),
-                new SpecificationCriterion("password", password)
-        };
-        return ((TeacherEntity)this.repository.specificObject(criterions)).token;
+        QueryBuilder builder = this.repository.getBuilderQuery();
+        return ((UserEntity) builder.select()
+                .where(new SpecificationCriterion("login", login))
+                .where(new SpecificationCriterion("password", password))
+                .getObject()).token;
     }
 
     public boolean checkToken(String token)
     {
-        return false;
+
+        QueryBuilder builder = this.repository.getBuilderQuery();
+        return builder.select()
+                .where(new SpecificationCriterion("token", token))
+                .getObject() != null;
     }
 
-    public TeacherEntity getTeacherByToken(String token)
+    public UserEntity getByToken(String token)
     {
         SpecificationCriterion[] criterions = new SpecificationCriterion[]{
                 new SpecificationCriterion("token", token)
         };
-        return ((TeacherEntity)this.repository.specificObject(criterions));
+        QueryBuilder builder = this.repository.getBuilderQuery();
+        return (UserEntity) builder.select().
+                where(new SpecificationCriterion("token", token)).getObject();
     }
 
-    public PupilEntity getPupilByToken(String token)
-    {
-        SpecificationCriterion[] criterions = new SpecificationCriterion[]{
-                new SpecificationCriterion("token", token)
-        };
-        return ((PupilEntity)this.repository.specificObject(criterions));
-    }
 }

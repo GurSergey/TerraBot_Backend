@@ -1,30 +1,78 @@
 package services;
 import com.google.inject.Inject;
 import entity.AbstractEntity;
-import entity.EntityHibernate;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.List;
 
 public class RepositoryDB <T extends AbstractEntity> implements Repository<T> {
 
+
+    private class QueryBuilderDB implements QueryBuilder {
+
+        CriteriaQuery<T> currentQuery;
+        CriteriaBuilder currentBuilder;
+        Root currentRoot;
+
+        @Override
+        public QueryBuilder select() {
+            currentBuilder = currentSession.getCriteriaBuilder();
+            currentQuery = currentBuilder.createQuery(clazz);
+            currentRoot = currentQuery.from(clazz);
+            currentQuery.select(currentRoot);
+            return this;
+        }
+
+        @Override
+        public QueryBuilder where(SpecificationCriterion criterion) {
+            currentQuery.where(currentBuilder.equal(currentRoot.get(criterion.nameField), criterion.value));
+            return this;
+        }
+
+        @Override
+        public QueryBuilder like(SpecificationCriterion criterion) {
+            currentQuery.where(currentBuilder.like(currentRoot.get(criterion.nameField),
+                    "%"+criterion.value+"%"));
+            return this;
+        }
+
+        @Override
+        public Object getObject() {
+            Query<T> q = currentSession.createQuery(currentQuery);
+            return q.getSingleResult();
+        }
+
+        public Object[] getObjects()
+        {
+            Query<T> q = currentSession.createQuery(currentQuery);
+            return q.getResultList().toArray();
+        }
+    }
+
+
     private Class<T> clazz;
+    private Session currentSession;
     @Inject
     public RepositoryDB(Class<T> type)
     {
         clazz = type;
     }
 
+    public RepositoryDB()
+    {
+        currentSession = HibernateSessionFactory.getSessionFactory().openSession();
+    }
 
+    @Override
+    public void finalize() {
+        currentSession.close();
+    }
 
-//    @Override
+    //    @Override
 //    public void save(AbstractEntity entity) {
 //
 //    }
@@ -42,57 +90,34 @@ public class RepositoryDB <T extends AbstractEntity> implements Repository<T> {
 
     @Override
     public void save(T entity) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(entity);
+        Transaction transaction = currentSession.beginTransaction();
+        currentSession.save(entity);
         transaction.commit();
-        session.close();
     }
 
     @Override
     public void update(T entity) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.update(entity);
+        Transaction transaction = currentSession.beginTransaction();
+        currentSession.update(entity);
         transaction.commit();
-        session.close();
     }
 
     @Override
     public void delete(T entity) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        session.delete(entity);
+        Transaction transaction = currentSession.beginTransaction();
+        currentSession.delete(entity);
         transaction.commit();
-        session.close();
     }
 
     @Override
     public T findById(int id) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        return (T) session.get(clazz, id);
+        return (T) currentSession.get(clazz, id);
     }
 
-    @Override
-    public Object specificObject(SpecificationCriterion[] criterias) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Criteria crit = session.createCriteria(clazz);
-//        for (SpecificationCriterion criterion :criterias
-//             ) {
-//            crit.add(Restrictions.eq(criterion.nameField, criterion.value));
-//        }
+   public QueryBuilder getBuilderQuery()
+   {
+       return new QueryBuilderDB();
+   }
 
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<T> query = builder.createQuery(clazz);
-        Root<T> root = query.from(clazz);
-        query.select(root).where(builder.equal(root.get(criterias[0].nameField), criterias[0].value));
-        Query<T> q=session.createQuery(query);
-        return q.getSingleResult();
-
-//        if(crit.list().size()!=0)
-//            return crit.list().get(0);
-//        else
-//            return null;
-    }
 
 }

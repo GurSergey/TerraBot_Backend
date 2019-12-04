@@ -16,15 +16,14 @@ import java.io.PrintWriter;
 public class ProfileController extends Controller {
     private static String NAME_TOKEN_PARAM = "token";
 
+
     public void methodGetPupilProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String token =  req.getParameter(NAME_TOKEN_PARAM);
         AuthService pupilAuthService = new AuthService(
                 new RepositoryDB(PupilEntity.class));
         PupilEntity pupil = pupilAuthService.getPupilByToken(token);
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
         PrintWriter out = resp.getWriter();
-        String json = gson.toJson(pupil);
+        String json = jsonGetterObject.toJson(pupil);
         out.print(json);
     }
 
@@ -36,7 +35,7 @@ public class ProfileController extends Controller {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         PrintWriter out = resp.getWriter();
-        String json = gson.toJson(teacher);
+        String json = jsonGetterObject.toJson(teacher);
         out.print(json);
     }
 }

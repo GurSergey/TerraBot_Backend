@@ -9,5 +9,5 @@ public interface Repository<T extends AbstractEntity> {
     public void update(T entity);
     public void delete(T entity);
     public T findById(int id);
-    public Object specificObject(SpecificationCriterion[] criterias );
+    public QueryBuilder getBuilderQuery();
 }

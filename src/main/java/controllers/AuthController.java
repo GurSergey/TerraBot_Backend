@@ -3,6 +3,7 @@ package controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entity.PupilEntity;
+import entity.TeacherEntity;
 import services.AuthService;
 import services.RepositoryDB;
 
@@ -24,14 +25,23 @@ public class AuthController extends Controller {
     public void methodAuthPupil(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String login =  req.getParameter(NAME_LOGIN_PARAM);
         String password = req.getParameter(NAME_PASSWORD_PARAM);
-
         AuthService pupilAuthService = new AuthService(
                 new RepositoryDB(PupilEntity.class));
         String token = pupilAuthService.signInPupil(login, password);
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
         PrintWriter out = resp.getWriter();
-        String json = gson.toJson(new AnswerToken(token));
+        String json = jsonGetterObject.toJson(new AnswerToken(token));
         out.print(json);
     }
+
+    public void methodAuthTeacher(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String login =  req.getParameter(NAME_LOGIN_PARAM);
+        String password = req.getParameter(NAME_PASSWORD_PARAM);
+        AuthService pupilAuthService = new AuthService(
+                new RepositoryDB(TeacherEntity.class));
+        String token = pupilAuthService.signInTeacher(login, password);
+        PrintWriter out = resp.getWriter();
+        String json = jsonGetterObject.toJson(new AnswerToken(token));
+        out.print(json);
+    }
+
 }

@@ -21,11 +21,16 @@ public class RegisterController extends Controller {
     private static String NAME_PUPIL_PARAM = "pupil";
     private static String NAME_TEACHER_PARAM = "teacher";
 
+
+    public RegisterController()
+    {
+
+    }
+
+
     public void methodPupilRegistry(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String pupilString =  req.getParameter(NAME_PUPIL_PARAM);
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        PupilEntity pupilEntity = gson.fromJson(pupilString, PupilEntity.class);
+        PupilEntity pupilEntity = jsonGetterObject.fromJson(pupilString, PupilEntity.class);
         PupilRegisterService pupilRegisterService = new PupilRegisterService(
                 new RepositoryDB(PupilEntity.class));
         pupilRegisterService.register(pupilEntity);
@@ -34,9 +39,7 @@ public class RegisterController extends Controller {
 
     public void methodTeacherRegistry(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String pupilString =  req.getParameter(NAME_TEACHER_PARAM);
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        TeacherEntity teacherEntity = gson.fromJson(pupilString, TeacherEntity.class);
+        TeacherEntity teacherEntity = jsonGetterObject.fromJson(pupilString, TeacherEntity.class);
         TeacherRegisterService teacherRegisterService = new TeacherRegisterService(
                 new RepositoryDB(TeacherEntity.class));
         teacherRegisterService.register(teacherEntity);

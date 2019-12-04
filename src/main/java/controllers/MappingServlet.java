@@ -39,8 +39,6 @@ public class MappingServlet extends HttpServlet {
         String routeString = req.getRequestURI();
         ArrayList<String> route = new ArrayList(Arrays.asList(routeString.split("/")));
         route.remove(0);
-
-
         if(route.size()!=SIZE_OF_ROUTE)
         {
             this.routeUnknown(resp);
