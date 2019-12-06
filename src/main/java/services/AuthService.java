@@ -22,13 +22,13 @@ public class AuthService extends AbstractService {
         return randString.toString();
     }
 
-    public String signIn(String login, String password)
+    public UserEntity signIn(String login, String password)
     {
         QueryBuilder builder = this.repository.getBuilderQuery();
         return ((UserEntity) builder.select()
                 .where(new SpecificationCriterion("login", login))
                 .where(new SpecificationCriterion("password", password))
-                .getObject()).token;
+                .getObject());
     }
 
     public boolean checkToken(String token)
@@ -42,9 +42,7 @@ public class AuthService extends AbstractService {
 
     public UserEntity getByToken(String token)
     {
-        SpecificationCriterion[] criterions = new SpecificationCriterion[]{
-                new SpecificationCriterion("token", token)
-        };
+
         QueryBuilder builder = this.repository.getBuilderQuery();
         return (UserEntity) builder.select().
                 where(new SpecificationCriterion("token", token)).getObject();

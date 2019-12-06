@@ -4,7 +4,9 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +24,7 @@ public class UserEntity {
     @Column(name = "token", unique = true)
     @NotNull
     public String token;
+    @Column(name = "role")
+    @NotNull
+    public int role;
 }
