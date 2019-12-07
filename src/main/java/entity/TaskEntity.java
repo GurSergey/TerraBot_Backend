@@ -13,7 +13,7 @@ public class TaskEntity implements EntityHibernate {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public int id = ID_DEFAULT_VALUE;
     @Column(name = "name")
     @NotNull
     public String name;

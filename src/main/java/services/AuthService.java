@@ -8,8 +8,10 @@ import entity.UserEntity;
 import java.util.Random;
 
 public class AuthService extends AbstractService {
-    public AuthService(Repository<PupilEntity> repository) {
-        super(repository);
+    private Repository<UserEntity> repositoryUser;
+
+    public AuthService(Repository<UserEntity> repositoryUser) {
+        this.repositoryUser = repositoryUser;
     }
 
     public static String generateToken()
@@ -24,7 +26,7 @@ public class AuthService extends AbstractService {
 
     public UserEntity signIn(String login, String password)
     {
-        QueryBuilder builder = this.repository.getBuilderQuery();
+        QueryBuilder builder = this.repositoryUser.getBuilderQuery();
         return ((UserEntity) builder.select()
                 .where(new SpecificationCriterion("login", login))
                 .where(new SpecificationCriterion("password", password))
@@ -34,7 +36,7 @@ public class AuthService extends AbstractService {
     public boolean checkToken(String token)
     {
 
-        QueryBuilder builder = this.repository.getBuilderQuery();
+        QueryBuilder builder = this.repositoryUser.getBuilderQuery();
         return builder.select()
                 .where(new SpecificationCriterion("token", token))
                 .getObject() != null;
@@ -43,7 +45,7 @@ public class AuthService extends AbstractService {
     public UserEntity getByToken(String token)
     {
 
-        QueryBuilder builder = this.repository.getBuilderQuery();
+        QueryBuilder builder = this.repositoryUser.getBuilderQuery();
         return (UserEntity) builder.select().
                 where(new SpecificationCriterion("token", token)).getObject();
     }

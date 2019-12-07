@@ -9,7 +9,7 @@ import java.util.List;
 public class IssueEntity implements EntityHibernate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public int id = ID_DEFAULT_VALUE;
     @Column(name = "mark")
     public int mark;
     @Column(name = "completed")

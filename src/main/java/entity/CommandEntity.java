@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class CommandEntity implements EntityHibernate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public int id = ID_DEFAULT_VALUE;
     @Column(name = "type")
     public int type;
     @Column(name = "number")

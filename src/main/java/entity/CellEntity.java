@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class CellEntity implements EntityHibernate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public int id = ID_DEFAULT_VALUE;
     @ManyToOne
     @JoinColumn(name = "field_id")
     public FieldEntity field;

@@ -4,14 +4,16 @@ import entity.PupilEntity;
 import enumeration.UserRolesEnum;
 
 public class PupilRegisterService extends AbstractService {
-    public PupilRegisterService(Repository<PupilEntity> repository) {
-        super(repository);
+    private Repository<PupilEntity> repositoryPupil;
+
+    public PupilRegisterService(Repository<PupilEntity> repositoryPupil) {
+        this.repositoryPupil = repositoryPupil;
     }
 
     public void register(PupilEntity pupilEntity){
         pupilEntity.role = UserRolesEnum.PUPIL.getId();
         pupilEntity.token = AuthService.generateToken();
-        this.repository.save(pupilEntity);
+        this.repositoryPupil.save(pupilEntity);
     }
 
 }

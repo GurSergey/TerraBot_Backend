@@ -72,22 +72,6 @@ public class RepositoryDB <T extends AbstractEntity> implements Repository<T> {
         currentSession.close();
     }
 
-    //    @Override
-//    public void save(AbstractEntity entity) {
-//
-//    }
-//
-//
-//    @Override
-//    public void update(AbstractEntity entity) {
-//
-//    }
-//    @Override
-//    public void delete(AbstractEntity entity) {
-//
-//    }
-
-
     @Override
     public void save(T entity) {
         Transaction transaction = currentSession.beginTransaction();

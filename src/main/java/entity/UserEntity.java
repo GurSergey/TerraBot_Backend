@@ -2,15 +2,17 @@ package entity;
 
 import com.sun.istack.NotNull;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.persistence.*;
+import java.io.File;
 
 @Entity
 @Table(name = "user")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class UserEntity {
+public class UserEntity implements AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    public int id  = ID_DEFAULT_VALUE;
     @Column(name = "name")
     @NotNull
     public String name;
@@ -27,4 +29,6 @@ public class UserEntity {
     @Column(name = "role")
     @NotNull
     public int role;
+
+
 }
