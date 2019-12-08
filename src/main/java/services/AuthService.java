@@ -42,12 +42,13 @@ public class AuthService extends AbstractService {
                 .getObject() != null;
     }
 
-    public UserEntity getByToken(String token)
-    {
+    public UserEntity getByToken(String token) throws Exception {
 
         QueryBuilder builder = this.repositoryUser.getBuilderQuery();
-        return (UserEntity) builder.select().
+        UserEntity user = (UserEntity) builder.select().
                 where(new SpecificationCriterion("token", token)).getObject();
+        notNull(user, new Exception(""));
+        return user;
     }
 
 }

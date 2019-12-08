@@ -16,7 +16,7 @@ public class ProfileService {
     }
 
 
-    public void saveProfileStudent(PupilEntity pupil, File avatar) {
+    public void saveProfilePupil(PupilEntity pupil, File avatar) {
         this.repositoryPupil.update(pupil);
     }
 

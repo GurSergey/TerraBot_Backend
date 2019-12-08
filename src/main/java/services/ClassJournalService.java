@@ -11,10 +11,10 @@ public class ClassJournalService extends AbstractService {
     private Repository<PupilEntity> repositoryPupil;
     private Repository<TaskEntity> repositoryTask;
 
-    ClassJournalService(Repository<TeacherEntity> repositoryTeacher,
-                        Repository<IssueEntity> repositoryIssue,
-                        Repository<PupilEntity> repositoryPupil,
-                        Repository<TaskEntity> repositoryTask) {
+    public ClassJournalService(Repository<TeacherEntity> repositoryTeacher,
+                               Repository<IssueEntity> repositoryIssue,
+                               Repository<PupilEntity> repositoryPupil,
+                               Repository<TaskEntity> repositoryTask) {
         this.repositoryIssue = repositoryIssue;
         this.repositoryPupil = repositoryPupil;
         this.repositoryTeacher = repositoryTeacher;
@@ -37,8 +37,8 @@ public class ClassJournalService extends AbstractService {
                 .getObjects();
     }
     public IssueEntity[] getListIssues(int idTeacher, int idPupil) throws Exception {
-        PupilEntity pupilEntity = (PupilEntity) repositoryPupil.findById(idPupil);
-        TeacherEntity teacherEntity = (TeacherEntity) repositoryTeacher.findById(idTeacher);
+        PupilEntity pupilEntity = repositoryPupil.findById(idPupil);
+        TeacherEntity teacherEntity = repositoryTeacher.findById(idTeacher);
         if(!pupilEntity.teacher.equals(teacherEntity))
         {
             throw new Exception("Не ваш ученик");
@@ -46,9 +46,9 @@ public class ClassJournalService extends AbstractService {
         return (IssueEntity[]) pupilEntity.issues.toArray();
     }
     public IssueEntity getIssue(int idTeacher, int idIssue) throws Exception {
-        IssueEntity issueEntity = (IssueEntity) repositoryIssue.findById(idIssue);
+        IssueEntity issueEntity = repositoryIssue.findById(idIssue);
         notNull(issueEntity, new Exception());
-        TeacherEntity teacherEntity = (TeacherEntity) repositoryTeacher.findById(idTeacher);
+        TeacherEntity teacherEntity = repositoryTeacher.findById(idTeacher);
         notNull(teacherEntity, new Exception());
         if(!issueEntity.pupil.teacher.equals(teacherEntity)) {
             throw new Exception("Не ваш ученик");
@@ -56,9 +56,9 @@ public class ClassJournalService extends AbstractService {
         return issueEntity;
     }
     public void addPupil(int idTeacher, int idPupil) throws Exception {
-        PupilEntity pupilEntity = (PupilEntity) repositoryPupil.findById(idPupil);
+        PupilEntity pupilEntity = repositoryPupil.findById(idPupil);
         notNull(pupilEntity, new Exception());
-        TeacherEntity teacherEntity = (TeacherEntity) repositoryTeacher.findById(idTeacher);
+        TeacherEntity teacherEntity = repositoryTeacher.findById(idTeacher);
         notNull(teacherEntity, new Exception());
         pupilEntity.teacher = teacherEntity;
         repositoryPupil.save(pupilEntity);
@@ -66,9 +66,9 @@ public class ClassJournalService extends AbstractService {
     }
 
     public void removePupil(int idTeacher, int idPupil) throws Exception {
-        PupilEntity pupilEntity = (PupilEntity) repositoryPupil.findById(idPupil);
+        PupilEntity pupilEntity = repositoryPupil.findById(idPupil);
         notNull(pupilEntity, new Exception());
-        TeacherEntity teacherEntity = (TeacherEntity) repositoryTeacher.findById(idTeacher);
+        TeacherEntity teacherEntity = repositoryTeacher.findById(idTeacher);
         notNull(teacherEntity, new Exception());
         if(!pupilEntity.teacher.equals(teacherEntity)) {
             throw new Exception("Не ваш ученик");
@@ -78,9 +78,9 @@ public class ClassJournalService extends AbstractService {
     }
 
     public void addTaskForPupil(int idTeacher, int idPupil, int idTask) throws Exception {
-        PupilEntity pupilEntity = (PupilEntity) repositoryPupil.findById(idPupil);
+        PupilEntity pupilEntity = repositoryPupil.findById(idPupil);
         notNull(pupilEntity, new Exception());
-        TeacherEntity teacherEntity = (TeacherEntity) repositoryTeacher.findById(idTeacher);
+        TeacherEntity teacherEntity = repositoryTeacher.findById(idTeacher);
         notNull(teacherEntity, new Exception());
         TaskEntity taskEntity = repositoryTask.findById(idTask);
         notNull(taskEntity, new Exception());
@@ -95,7 +95,7 @@ public class ClassJournalService extends AbstractService {
     }
 
     public void setMark(int idTeacher, int idIssue, int mark) throws Exception {
-        IssueEntity issueEntity = (IssueEntity) repositoryIssue.findById(idIssue);
+        IssueEntity issueEntity = repositoryIssue.findById(idIssue);
         notNull(issueEntity, new Exception());
         TeacherEntity teacherEntity = (TeacherEntity) repositoryTeacher.findById(idTeacher);
         notNull(teacherEntity, new Exception());

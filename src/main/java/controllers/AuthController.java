@@ -40,4 +40,12 @@ public class AuthController extends Controller {
         out.print(json);
     }
 
+    public void methodCheckToken(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        String token = req.getParameter(NAME_TOKEN_PARAM);
+        AuthService userAuthService = new AuthService(
+                new RepositoryDB(UserEntity.class));
+        sendString(jsonGetterObject.toJson(userAuthService.checkToken(token)), resp);
+    }
+
 }

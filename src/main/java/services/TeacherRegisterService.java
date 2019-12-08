@@ -8,7 +8,7 @@ import java.io.File;
 public class TeacherRegisterService extends AbstractService {
     private Repository<TeacherEntity> repositoryTeacher;
 
-    public TeacherRegisterService(Repository<TeacherEntity> repositoryTeacher, File avatar) {
+    public TeacherRegisterService(Repository<TeacherEntity> repositoryTeacher) {
         this.repositoryTeacher = repositoryTeacher;
     }
 

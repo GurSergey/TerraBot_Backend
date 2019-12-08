@@ -21,7 +21,7 @@ public class ProfileController extends Controller {
         String token =  req.getParameter(NAME_TOKEN_PARAM);
         AuthService pupilAuthService = new AuthService(
                 new RepositoryDB(PupilEntity.class));
-        PupilEntity pupil = pupilAuthService.getPupilByToken(token);
+        PupilEntity pupil = (PupilEntity) pupilAuthService.getByToken(token);
         PrintWriter out = resp.getWriter();
         String json = jsonGetterObject.toJson(pupil);
         out.print(json);
@@ -31,9 +31,7 @@ public class ProfileController extends Controller {
         String token =  req.getParameter(NAME_TOKEN_PARAM);
         AuthService teacherAuthService = new AuthService(
                 new RepositoryDB(TeacherEntity.class));
-        TeacherEntity teacher = teacherAuthService.getTeacherByToken(token);
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        TeacherEntity teacher = (TeacherEntity) teacherAuthService.getByToken(token);
         PrintWriter out = resp.getWriter();
         String json = jsonGetterObject.toJson(teacher);
         out.print(json);

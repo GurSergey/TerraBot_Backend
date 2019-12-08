@@ -33,7 +33,7 @@ public class RegisterController extends Controller {
         PupilEntity pupilEntity = jsonGetterObject.fromJson(pupilString, PupilEntity.class);
         PupilRegisterService pupilRegisterService = new PupilRegisterService(
                 new RepositoryDB(PupilEntity.class));
-        pupilRegisterService.register(pupilEntity);
+        pupilRegisterService.register(pupilEntity, null);
         this.sendStandartAnswer(resp);
     }
 
@@ -42,7 +42,7 @@ public class RegisterController extends Controller {
         TeacherEntity teacherEntity = jsonGetterObject.fromJson(pupilString, TeacherEntity.class);
         TeacherRegisterService teacherRegisterService = new TeacherRegisterService(
                 new RepositoryDB(TeacherEntity.class));
-        teacherRegisterService.register(teacherEntity);
+        teacherRegisterService.register(teacherEntity, null);
         this.sendStandartAnswer(resp);
     }
 

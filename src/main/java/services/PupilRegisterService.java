@@ -3,6 +3,8 @@ package services;
 import entity.PupilEntity;
 import enumeration.UserRolesEnum;
 
+import java.io.File;
+
 public class PupilRegisterService extends AbstractService {
     private Repository<PupilEntity> repositoryPupil;
 
@@ -10,7 +12,7 @@ public class PupilRegisterService extends AbstractService {
         this.repositoryPupil = repositoryPupil;
     }
 
-    public void register(PupilEntity pupilEntity){
+    public void register(PupilEntity pupilEntity, File avatar){
         pupilEntity.role = UserRolesEnum.PUPIL.getId();
         pupilEntity.token = AuthService.generateToken();
         this.repositoryPupil.save(pupilEntity);
