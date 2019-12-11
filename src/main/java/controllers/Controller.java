@@ -22,7 +22,7 @@ public abstract class Controller {
     Controller()
     {
         GsonBuilder builder = new GsonBuilder();
-        Gson jsonGetterObject = builder.create();
+        jsonGetterObject = builder.create();
     }
 
     private class Answer

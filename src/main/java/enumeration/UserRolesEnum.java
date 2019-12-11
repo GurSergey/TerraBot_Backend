@@ -1,23 +1,28 @@
 package enumeration;
 
-import entity.PupilEntity;
-import entity.TeacherEntity;
+//import entity.PupilEntity;
+//import entity.TeacherEntity;
+
+import org.omg.CORBA.UNKNOWN;
 
 public enum UserRolesEnum {
 
-    PUPIL(0), TEACHER(1), UNKNOWN(-1) ;
+
+    PUPIL(0), TEACHER(1), UNKNOWN(-1);
+
     private final String[] names = {"pupil", "teacher"};
-    private final Class[] classes = {
-        PupilEntity.class, TeacherEntity.class
-    };
+//    private final Class[] classes = {
+//        PupilEntity.class, TeacherEntity.class
+//    };
+
     private final int id;
     private final String name;
-    private final Class clazz;
-    private UserRolesEnum(int id)
+//    private final Class clazz;
+    UserRolesEnum(int id)
     {
         this.id = id;
-        this.name = names[id];
-        this.clazz = classes[id];
+        this.name = this.toString().toLowerCase();
+//       this.clazz = classes[id];
     }
     public int getId()
     {

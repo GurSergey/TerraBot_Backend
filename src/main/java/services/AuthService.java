@@ -37,9 +37,15 @@ public class AuthService extends AbstractService {
     {
 
         QueryBuilder builder = this.repositoryUser.getBuilderQuery();
-        return builder.select()
-                .where(new SpecificationCriterion("token", token))
-                .getObject() != null;
+        try {
+            return builder.select()
+                    .where(new SpecificationCriterion("token", token))
+                    .getObject() != null;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 
     public UserEntity getByToken(String token) throws Exception {

@@ -38,8 +38,8 @@ public class RegisterController extends Controller {
     }
 
     public void methodTeacherRegistry(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String pupilString =  req.getParameter(NAME_TEACHER_PARAM);
-        TeacherEntity teacherEntity = jsonGetterObject.fromJson(pupilString, TeacherEntity.class);
+        String teacherString =  req.getParameter(NAME_TEACHER_PARAM);
+        TeacherEntity teacherEntity = jsonGetterObject.fromJson(teacherString, TeacherEntity.class);
         TeacherRegisterService teacherRegisterService = new TeacherRegisterService(
                 new RepositoryDB(TeacherEntity.class));
         teacherRegisterService.register(teacherEntity, null);

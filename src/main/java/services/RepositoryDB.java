@@ -5,9 +5,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.lang.reflect.Array;
+import java.util.List;
 
 public class RepositoryDB <T extends AbstractEntity> implements Repository<T> {
 
@@ -46,25 +49,36 @@ public class RepositoryDB <T extends AbstractEntity> implements Repository<T> {
             return q.getSingleResult();
         }
 
-        public Object[] getObjects()
+        private T[] objects;
+
+        public T[] getObjects()
         {
-            Query<T> q = currentSession.createQuery(currentQuery);
-            return q.getResultList().toArray();
+            TypedQuery<T> q = currentSession.createQuery(currentQuery);
+            List<T> list = q.getResultList();
+            @SuppressWarnings("unchecked")
+            final T[] objects = (T[]) Array.newInstance(clazz, list.size());
+            for (int i = 0; i < objects.length; i++)
+            {
+                objects[i] = list.get(i);
+            }
+
+            return objects;
         }
     }
 
 
     private Class<T> clazz;
     private Session currentSession;
-    @Inject
+
     public RepositoryDB(Class<T> type)
     {
         clazz = type;
+        currentSession = HibernateSessionFactory.getSessionFactory().openSession();
     }
 
     public RepositoryDB()
     {
-        currentSession = HibernateSessionFactory.getSessionFactory().openSession();
+
     }
 
     @Override

@@ -16,6 +16,6 @@ public class TeacherRegisterService extends AbstractService {
     {
         teacher.role = UserRolesEnum.TEACHER.getId();
         teacher.token = AuthService.generateToken();
-        this.repositoryTeacher.save(teacher);
+        repositoryTeacher.save(teacher);
     }
 }

@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.File;
 
 @Entity
-@Table(name = "user")
+@Table(name = "abstract_user")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity implements AbstractEntity {
     @Id

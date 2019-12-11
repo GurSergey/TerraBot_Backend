@@ -25,7 +25,7 @@ public class ClassJournalService extends AbstractService {
     {
         QueryBuilder builder = repositoryPupil.getBuilderQuery();
         return (PupilEntity[]) builder.select().
-                where(new SpecificationCriterion("teacher_id", null)).
+                where(new SpecificationCriterion("teacher", null)).
                 like(new SpecificationCriterion("name", template)).
                 getObjects();
     }
@@ -33,7 +33,7 @@ public class ClassJournalService extends AbstractService {
     {
         QueryBuilder builder = repositoryPupil.getBuilderQuery();
         return (PupilEntity[]) builder.select().
-                where(new SpecificationCriterion("teacher_id", idTeacher))
+                where(new SpecificationCriterion("teacher", idTeacher))
                 .getObjects();
     }
     public IssueEntity[] getListIssues(int idTeacher, int idPupil) throws Exception {

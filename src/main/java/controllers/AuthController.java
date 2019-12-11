@@ -38,10 +38,9 @@ public class AuthController extends Controller {
     }
 
     public void methodAuth(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String login =  req.getParameter(NAME_LOGIN_PARAM);
+        String login = req.getParameter(NAME_LOGIN_PARAM);
         String password = req.getParameter(NAME_PASSWORD_PARAM);
         UserEntity user = userAuthService.signIn(login, password);
-        PrintWriter out = resp.getWriter();
         sendString(jsonGetterObject.toJson(new AnswerToken(user.token,
                 UserRolesEnum.getById(user.role).getName())), resp);
 
