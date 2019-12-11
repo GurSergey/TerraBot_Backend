@@ -20,6 +20,9 @@ import static enumeration.UserRolesEnum.*;
 public class AuthController extends Controller {
     private static String  NAME_LOGIN_PARAM = "login";
     private static String NAME_PASSWORD_PARAM = "password";
+
+    private static AuthService userAuthService;
+
     private class AnswerToken{
         private String token = "";
         private String role = "";
@@ -28,23 +31,24 @@ public class AuthController extends Controller {
             this.role = role;}
     }
 
+    public AuthController()
+    {
+        userAuthService = new AuthService(
+                new RepositoryDB(UserEntity.class));
+    }
+
     public void methodAuth(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String login =  req.getParameter(NAME_LOGIN_PARAM);
         String password = req.getParameter(NAME_PASSWORD_PARAM);
-        AuthService userAuthService = new AuthService(
-                new RepositoryDB(UserEntity.class));
         UserEntity user = userAuthService.signIn(login, password);
         PrintWriter out = resp.getWriter();
-        String json = jsonGetterObject.toJson(new AnswerToken(user.token,
-                UserRolesEnum.getById(user.role).getName()));
-        out.print(json);
+        sendString(jsonGetterObject.toJson(new AnswerToken(user.token,
+                UserRolesEnum.getById(user.role).getName())), resp);
+
     }
 
     public void methodCheckToken(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
         String token = req.getParameter(NAME_TOKEN_PARAM);
-        AuthService userAuthService = new AuthService(
-                new RepositoryDB(UserEntity.class));
         sendString(jsonGetterObject.toJson(userAuthService.checkToken(token)), resp);
     }
 

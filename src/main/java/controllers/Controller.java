@@ -6,6 +6,7 @@ import entity.UserEntity;
 import services.AuthService;
 import services.RepositoryDB;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -53,6 +54,13 @@ public abstract class Controller {
         {
             throw new Exception("");
         }
+    }
+
+    protected UserEntity getUserEntity(Class role, HttpServletRequest req) throws Exception {
+        String token =  req.getParameter(NAME_TOKEN_PARAM);
+        AuthService pupilAuthService = new AuthService(
+                new RepositoryDB(role));
+        return pupilAuthService.getByToken(token);
     }
 
 }

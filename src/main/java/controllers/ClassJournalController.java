@@ -32,36 +32,26 @@ public class ClassJournalController extends Controller{
         String templateString = req.getParameter(NAME_TEMPLATE_PARAM);
         String tokenString = req.getParameter(NAME_TOKEN_PARAM);
         checkAuthToken(tokenString);
-
         PupilEntity[] pupils = classJournalService.findByTemplate(templateString);
         this.sendString(jsonGetterObject.toJson(pupils), resp);
     }
 
     public void methodGetListPupils(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String tokenString = req.getParameter(NAME_TOKEN_PARAM);
-        AuthService teacherAuthService = new AuthService(
-                new RepositoryDB(TeacherEntity.class));
-        TeacherEntity teacherEntity = (TeacherEntity) teacherAuthService.getByToken(tokenString);
+        TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         PupilEntity[] pupils = classJournalService.getListPupils(teacherEntity.id);
         this.sendString(jsonGetterObject.toJson(pupils), resp);
     }
 
     public void methodGetListIssues(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String tokenString = req.getParameter(NAME_TOKEN_PARAM);
         String pupilId = req.getParameter(NAME_ID_PUPIL_PARAM);
-        AuthService teacherAuthService = new AuthService(
-                new RepositoryDB(TeacherEntity.class));
-        TeacherEntity teacherEntity = (TeacherEntity) teacherAuthService.getByToken(tokenString);
+        TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         IssueEntity[] issues = classJournalService.getListIssues(teacherEntity.id, Integer.parseInt(pupilId));
         this.sendString(jsonGetterObject.toJson(issues), resp);
     }
 
     public void methodGetIssue(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String tokenString = req.getParameter(NAME_TOKEN_PARAM);
         String issueID = req.getParameter(NAME_ID_ISSUE_PARAM);
-        AuthService teacherAuthService = new AuthService(
-                new RepositoryDB(TeacherEntity.class));
-        TeacherEntity teacherEntity = (TeacherEntity) teacherAuthService.getByToken(tokenString);
+        TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         IssueEntity issue = classJournalService.getIssue(teacherEntity.id, Integer.parseInt(issueID));
         this.sendString(jsonGetterObject.toJson(issue), resp);
     }
@@ -69,41 +59,30 @@ public class ClassJournalController extends Controller{
     public void methodAddPupil(HttpServletRequest req, HttpServletResponse resp) throws Exception{
         String tokenString = req.getParameter(NAME_TOKEN_PARAM);
         String pupilId = req.getParameter(NAME_ID_PUPIL_PARAM);
-        AuthService teacherAuthService = new AuthService(
-                new RepositoryDB(TeacherEntity.class));
-        TeacherEntity teacherEntity = (TeacherEntity) teacherAuthService.getByToken(tokenString);
+        TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         classJournalService.addPupil(teacherEntity.id, Integer.parseInt(pupilId));
         sendStandartAnswer(resp);
     }
 
     public void methodRemovePupil(HttpServletRequest req, HttpServletResponse resp) throws Exception{
-        String tokenString = req.getParameter(NAME_TOKEN_PARAM);
         String pupilId = req.getParameter(NAME_ID_PUPIL_PARAM);
-        AuthService teacherAuthService = new AuthService(
-                new RepositoryDB(TeacherEntity.class));
-        TeacherEntity teacherEntity = (TeacherEntity) teacherAuthService.getByToken(tokenString);
+        TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         classJournalService.removePupil(teacherEntity.id, Integer.parseInt(pupilId));
         sendStandartAnswer(resp);
     }
 
     public void methodAddTaskForPupil(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String tokenString = req.getParameter(NAME_TOKEN_PARAM);
         String pupilId = req.getParameter(NAME_ID_PUPIL_PARAM);
         String taskId = req.getParameter(NAME_TASK_PARAM);
-        AuthService teacherAuthService = new AuthService(
-                new RepositoryDB(TeacherEntity.class));
-        TeacherEntity teacherEntity = (TeacherEntity) teacherAuthService.getByToken(tokenString);
+        TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         classJournalService.addTaskForPupil(teacherEntity.id, Integer.parseInt(pupilId), Integer.parseInt(taskId));
         sendStandartAnswer(resp);
     }
 
     public void methodSetMark(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        String tokenString = req.getParameter(NAME_TOKEN_PARAM);
         String mark = req.getParameter(NAME_MARK_PARAM);
         String issueID = req.getParameter(NAME_ID_ISSUE_PARAM);
-        AuthService teacherAuthService = new AuthService(
-                new RepositoryDB(TeacherEntity.class));
-        TeacherEntity teacherEntity = (TeacherEntity) teacherAuthService.getByToken(tokenString);
+        TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         classJournalService.setMark(teacherEntity.id, Integer.parseInt(issueID), Integer.parseInt(mark));
         sendStandartAnswer(resp);
     }

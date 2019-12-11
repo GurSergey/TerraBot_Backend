@@ -19,6 +19,7 @@ public class HibernateSessionFactory {
                 configuration.addAnnotatedClass(CommandEntity.class);
                 configuration.addAnnotatedClass(FieldEntity.class);
                 configuration.addAnnotatedClass(IssueEntity.class);
+                configuration.addAnnotatedClass(UserEntity.class);
                 configuration.addAnnotatedClass(PupilEntity.class);
                 configuration.addAnnotatedClass(TaskEntity.class);
                 configuration.addAnnotatedClass(TeacherEntity.class);

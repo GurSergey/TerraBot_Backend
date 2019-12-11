@@ -2,12 +2,12 @@ package services;
 
 import entity.*;
 
-public class TaskTeacherService extends AbstractService {
+public class TaskForTeacherService extends AbstractService {
     Repository<TeacherEntity> repositoryTeacher;
     Repository<TaskEntity> repositoryTask;
 
-    public TaskTeacherService(Repository<TeacherEntity> repositoryTeacher,
-                              Repository<TaskEntity> repositoryTask){
+    public TaskForTeacherService(Repository<TeacherEntity> repositoryTeacher,
+                                 Repository<TaskEntity> repositoryTask){
         this.repositoryTask = repositoryTask;
         this.repositoryTeacher = repositoryTeacher;
     }
@@ -25,8 +25,14 @@ public class TaskTeacherService extends AbstractService {
             notNull(taskEntity, new Exception());
             repositoryTask.update(task);
         }
-
     }
+
+    public TaskEntity[] getMyTasks(int idTeacher){
+        TaskEntity[] taskEntities = (TaskEntity[]) repositoryTask.getBuilderQuery().select().
+                where(new SpecificationCriterion("owner_id", idTeacher)).getObjects();
+        return taskEntities;
+    }
+
     public TaskEntity getTask(int idTeacher, int idTask) throws Exception {
         TaskEntity taskEntity = (TaskEntity) repositoryTask.getBuilderQuery().select().
                 where(new SpecificationCriterion("id", idTask)).
