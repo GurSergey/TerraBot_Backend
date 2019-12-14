@@ -34,6 +34,7 @@ public class TeacherTaskController extends Controller {
         TaskEntity taskEntity = taskForTeacherService.getTask(teacherEntity.id, idTask);
         sendString(jsonGetterObject.toJson(taskEntity), resp);
     }
+
     public void methodGetMyTasks(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         TaskEntity[] taskEntities = taskForTeacherService.getMyTasks(teacherEntity.id);

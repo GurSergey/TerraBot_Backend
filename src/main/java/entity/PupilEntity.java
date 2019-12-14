@@ -21,6 +21,6 @@ public class PupilEntity extends UserEntity implements EntityHibernate {
             inverseJoinColumns = { @JoinColumn(name = "task_id") }
     )
     public List<TaskEntity> tasks;
-    @OneToMany(mappedBy = "pupil", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pupil", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     public List<IssueEntity> issues;
 }

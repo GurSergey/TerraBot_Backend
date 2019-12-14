@@ -20,6 +20,71 @@ public class ClassJournalController extends Controller{
     private final String NAME_TASK_PARAM = "task";
 
     ClassJournalService classJournalService;
+
+    private class ListPupilItem
+    {
+        public ListPupilItem(PupilEntity pupilEntity) {
+            this.id = pupilEntity.id;
+            this.name = pupilEntity.name;
+            this.login = pupilEntity.login;
+        }
+        private int id;
+        private String name;
+        private String login;
+    }
+
+    private class ListIssueItem
+    {
+        private int id;
+
+        public ListIssueItem(IssueEntity issueEntity) {
+            this.id = issueEntity.id;
+            this.name = issueEntity.task.name;
+            this.complited = issueEntity.completed;
+        }
+
+        private String name;
+        private boolean complited;
+    }
+
+    private class IssueView
+    {
+        private class CommandView
+        {
+            public CommandView(CommandEntity commandEntity) {
+                this.type = commandEntity.type;
+                this.number = commandEntity.number;
+                this.parentNumber = commandEntity.parent!=null ?
+                        commandEntity.parent.number : -1 ;
+            }
+
+            private int type;
+            private int number;
+            private int parentNumber;
+        }
+
+        public IssueView(IssueEntity issueEntity) {
+            this.id = issueEntity.id;
+            this.nameTask = issueEntity.task.name;
+            this.description = issueEntity.task.description;
+            this.countStep = issueEntity.countStep;
+            this.countCommand = issueEntity.countCommand;
+            this.commands = new CommandView[issueEntity.commands.size()];
+            for(int i = 0; i < commands.length; i++)
+            {
+                this.commands[i] = new CommandView(issueEntity.commands.get(i));
+            }
+        }
+
+        private int id;
+        private String nameTask;
+        private String description;
+        private int countStep;
+        private int countCommand;
+        private CommandView[] commands;
+
+    }
+
     public ClassJournalController()
     {
          classJournalService = new ClassJournalService(
@@ -33,27 +98,43 @@ public class ClassJournalController extends Controller{
         String tokenString = req.getParameter(NAME_TOKEN_PARAM);
         checkAuthToken(tokenString);
         PupilEntity[] pupils = classJournalService.findByTemplate(templateString);
-        this.sendString(jsonGetterObject.toJson(pupils), resp);
+        ListPupilItem[] list = new ListPupilItem[pupils.length];
+        for(int i = 0; i< list.length; i++ )
+        {
+            list[i] = new ListPupilItem(pupils[i]);
+        }
+        this.sendString(jsonGetterObject.toJson(list), resp);
     }
 
     public void methodGetListPupils(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         PupilEntity[] pupils = classJournalService.getListPupils(teacherEntity.id);
-        this.sendString(jsonGetterObject.toJson(pupils), resp);
+        ListPupilItem[] list = new ListPupilItem[pupils.length];
+        for(int i = 0; i< list.length; i++ )
+        {
+            list[i] = new ListPupilItem(pupils[i]);
+        }
+        this.sendString(jsonGetterObject.toJson(list), resp);
     }
 
     public void methodGetListIssues(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String pupilId = req.getParameter(NAME_ID_PUPIL_PARAM);
         TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         IssueEntity[] issues = classJournalService.getListIssues(teacherEntity.id, Integer.parseInt(pupilId));
-        this.sendString(jsonGetterObject.toJson(issues), resp);
+        ListIssueItem[] list = new ListIssueItem[issues.length];
+        for(int i = 0; i< list.length; i++ )
+        {
+            list[i] = new ListIssueItem(issues[i]);
+        }
+        this.sendString(jsonGetterObject.toJson(list), resp);
     }
 
     public void methodGetIssue(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String issueID = req.getParameter(NAME_ID_ISSUE_PARAM);
         TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
         IssueEntity issue = classJournalService.getIssue(teacherEntity.id, Integer.parseInt(issueID));
-        this.sendString(jsonGetterObject.toJson(issue), resp);
+        IssueView issueView = new IssueView(issue);
+        this.sendString(jsonGetterObject.toJson(issueView), resp);
     }
 
     public void methodAddPupil(HttpServletRequest req, HttpServletResponse resp) throws Exception{

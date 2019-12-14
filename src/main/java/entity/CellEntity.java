@@ -13,4 +13,8 @@ public class CellEntity implements EntityHibernate{
     public FieldEntity field;
     @Column(name = "type_id")
     public int type;
+    @Column(name = "x")
+    public int x;
+    @Column(name = "y")
+    public int y;
 }

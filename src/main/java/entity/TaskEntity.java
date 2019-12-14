@@ -24,7 +24,10 @@ public class TaskEntity implements EntityHibernate {
     @NotNull
     public int difficulty;
     @OneToOne
-    @JoinColumn(name = "field_id", referencedColumnName = "id")
+    @JoinTable(name = "field",
+            joinColumns = @JoinColumn(name="task_id"),
+            inverseJoinColumns = @JoinColumn(name="id")
+    )
     public FieldEntity field;
     @OneToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")

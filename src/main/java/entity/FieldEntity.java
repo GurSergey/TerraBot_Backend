@@ -17,6 +17,9 @@ public class FieldEntity implements EntityHibernate  {
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<CellEntity> cells;
     @OneToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "id")
+    @JoinTable(name = "cell",
+            joinColumns = @JoinColumn(name="field_id"),
+            inverseJoinColumns = @JoinColumn(name="id")
+    )
     public TaskEntity task;
 }
