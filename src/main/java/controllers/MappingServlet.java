@@ -64,8 +64,7 @@ public class MappingServlet extends HttpServlet {
         } catch (IllegalAccessException e) {
             PrintWriter out = resp.getWriter();
             out.print(e.toString());
-        } catch (InvocationTargetException e) {
-            PrintWriter out = resp.getWriter();
+        } catch (InvocationTargetException e) { PrintWriter out = resp.getWriter();
             out.print(e.toString());
         } catch (InstantiationException e) {
             PrintWriter out = resp.getWriter();

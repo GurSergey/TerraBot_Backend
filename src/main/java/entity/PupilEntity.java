@@ -1,6 +1,7 @@
 package entity;
 
 import com.sun.istack.NotNull;
+import enumeration.UserRolesEnum;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Table(name = "pupil")
 public class PupilEntity extends UserEntity implements EntityHibernate {
     public PupilEntity() {
+        role = UserRolesEnum.PUPIL.getId();
     }
 
     @ManyToOne

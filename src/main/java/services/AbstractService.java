@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import entity.AbstractEntity;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Objects;
 
 public abstract class AbstractService {
     protected void notNull(Object object, Exception exception) throws Exception {
@@ -16,7 +18,8 @@ public abstract class AbstractService {
         Field[] fields = clazz.getFields();
         for (Field field : fields) {
             Object value = field.get(from);
-            if (value != null) {
+            if (!Modifier.isStatic(field.getModifiers())
+                    &&(value != null && !Objects.equals(field.getName().toLowerCase(), "id"))) {
                 if (field.get(from) instanceof AbstractEntity) {
                     copyFieldsNotNull((AbstractEntity) field.get(from),
                             (AbstractEntity) field.get(to), field.get(from).getClass());

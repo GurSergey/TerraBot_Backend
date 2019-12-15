@@ -19,6 +19,13 @@ public class ProfileController extends Controller {
     private static final String PUPIL_PARAM = "pupil";
     private ProfileService profileService;
 
+    private class GetProfile
+    {
+        private String login;
+        private String name;
+        private String password;
+    }
+
     public ProfileController()
     {
         profileService = new ProfileService(
@@ -41,23 +48,30 @@ public class ProfileController extends Controller {
     }
 
     public void methodSaveProfileTeacher(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        TeacherEntity teacherEntity = (TeacherEntity) getUserEntity(TeacherEntity.class, req);
+        int idTeacher = getUserEntity(TeacherEntity.class, req).id;
         String teacherString = req.getParameter(TEACHER_PARAM);
-        TeacherEntity teacherEntityFromClient =
-                jsonGetterObject.fromJson(teacherString, TeacherEntity.class);
-        teacherEntityFromClient.id = teacherEntity.id;
+        GetProfile teacherEntityFromClient =
+                jsonGetterObject.fromJson(teacherString, GetProfile.class);
+        TeacherEntity teacherEntity = new TeacherEntity();
+        teacherEntity.login = teacherEntityFromClient.login;
+        teacherEntity.password = teacherEntityFromClient.password;
+        teacherEntity.name = teacherEntityFromClient.name;
 
-        profileService.saveProfileTeacher(teacherEntityFromClient, null);
+
+        profileService.saveProfileTeacher(idTeacher,teacherEntity, null);
         sendStandartAnswer(resp);
     }
     public void methodSaveProfilePupil(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        PupilEntity pupilEntity = (PupilEntity) getUserEntity(PupilEntity.class, req);
+        int idPupil = getUserEntity(PupilEntity.class, req).id;
         String pupilString = req.getParameter(PUPIL_PARAM);
-        PupilEntity pupilEntityFromClient =
-                jsonGetterObject.fromJson(pupilString, PupilEntity.class);
-        pupilEntityFromClient.id = pupilEntity.id;
+        GetProfile pupilEntityFromClient =
+                jsonGetterObject.fromJson(pupilString, GetProfile.class);
+        PupilEntity pupilEntity = new PupilEntity();
+        pupilEntity.login = pupilEntityFromClient.login;
+        pupilEntity.password = pupilEntityFromClient.password;
+        pupilEntity.name = pupilEntityFromClient.name;
 
-        profileService.saveProfilePupil(pupilEntityFromClient, null);
+        profileService.saveProfilePupil(idPupil, pupilEntity, null);
         sendStandartAnswer(resp);
     }
 
