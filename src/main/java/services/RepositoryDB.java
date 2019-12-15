@@ -1,10 +1,12 @@
 package services;
 import com.google.inject.Inject;
+import com.sun.codemodel.internal.JCatchBlock;
 import entity.AbstractEntity;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -96,8 +98,16 @@ public class RepositoryDB <T extends AbstractEntity> implements Repository<T> {
     @Override
     public void update(T entity) {
         Transaction transaction = currentSession.beginTransaction();
-        currentSession.update(entity);
-        transaction.commit();
+        try {
+            currentSession.update(entity);
+            transaction.commit();
+        }
+        catch (PersistenceException e)
+        {
+            transaction = currentSession.beginTransaction();
+            currentSession.merge(entity);
+            transaction.commit();
+        }
     }
 
     @Override

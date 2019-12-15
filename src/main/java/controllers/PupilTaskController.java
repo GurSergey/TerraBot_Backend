@@ -33,10 +33,10 @@ public class PupilTaskController extends Controller {
         TaskEntity taskEntity = taskForPupilService.getTask(pupilEntity.id,idTask);
         sendString(jsonGetterObject.toJson(taskEntity), resp);
     }
-    public void methodTakeMyIssue(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        PupilEntity pupilEntity = (PupilEntity) getUserEntity(PupilEntity.class, req);
-        int idTask = Integer.parseInt(req.getParameter(ID_TASK_PARAM));
-        IssueEntity issueEntity = taskForPupilService.takeMyIssue(pupilEntity.id,idTask);
-        sendString(jsonGetterObject.toJson(issueEntity), resp);
-    }
+//    public void methodTakeMyIssue(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+//        PupilEntity pupilEntity = (PupilEntity) getUserEntity(PupilEntity.class, req);
+//        int idTask = Integer.parseInt(req.getParameter(ID_TASK_PARAM));
+//        IssueEntity issueEntity = taskForPupilService.takeMyIssue(pupilEntity.id,idTask);
+//        sendString(jsonGetterObject.toJson(issueEntity), resp);
+//    }
 }
