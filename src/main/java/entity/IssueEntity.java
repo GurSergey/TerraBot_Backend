@@ -11,7 +11,7 @@ public class IssueEntity implements EntityHibernate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int id = ID_DEFAULT_VALUE;
     @Column(name = "mark")
-    public int mark;
+    public int mark = -1;
     @Column(name = "completed")
     @NotNull
     public boolean completed;

@@ -27,22 +27,21 @@ public class TaskForPupilService extends AbstractService {
     public TaskEntity getTask(int idPupil, int idTask) throws Exception {
         PupilEntity pupilEntity = repositoryPupil.findById(idPupil);
         notNull(pupilEntity, new Exception());
-        TaskEntity taskEntity = repositoryTask.findById(idTask);
-        notNull(taskEntity, new Exception());
-        if(!pupilEntity.tasks.contains(taskEntity))
+        for(TaskEntity taskEntity: pupilEntity.tasks)
         {
-            throw new Exception();
+            if(taskEntity.id==idTask)
+                return taskEntity;
         }
-        return taskEntity;
+        throw new Exception();
 
     }
 
-    public IssueEntity takeMyIssue(int idPupil, int idTask) throws Exception {
-        IssueEntity issueEntity = (IssueEntity) this.repositoryIssue.getBuilderQuery().select().
-                where(new SpecificationCriterion("task_id", idTask)).
-                where(new SpecificationCriterion("pupil_id", idPupil)).
-                getObject();
-        notNull(issueEntity, new Exception());
-        return issueEntity;
-    }
+//    public IssueEntity takeMyIssue(int idPupil, int idTask) throws Exception {
+//        IssueEntity issueEntity = (IssueEntity) this.repositoryIssue.getBuilderQuery().select().
+//                where(new SpecificationCriterion("task_id", idTask)).
+//                where(new SpecificationCriterion("pupil_id", idPupil)).
+//                getObject();
+//        notNull(issueEntity, new Exception());
+//        return issueEntity;
+//    }
 }
