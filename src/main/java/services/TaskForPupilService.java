@@ -21,7 +21,8 @@ public class TaskForPupilService extends AbstractService {
     public TaskEntity[] getList(int idPupil) throws Exception {
         PupilEntity pupilEntity = repositoryPupil.findById(idPupil);
         notNull(pupilEntity , new Exception());
-        return (TaskEntity[]) pupilEntity.tasks.toArray();
+        return pupilEntity.tasks.toArray(new TaskEntity[pupilEntity.tasks.size()]);
+        //return (TaskEntity[]) pupilEntity.tasks.toArray();
     }
 
     public TaskEntity getTask(int idPupil, int idTask) throws Exception {

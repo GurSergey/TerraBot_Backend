@@ -4,6 +4,8 @@ import config.Config;
 import entity.PupilEntity;
 import entity.TeacherEntity;
 import entity.UserEntity;
+import exception.AuthException;
+import exception.TokenException;
 
 import java.util.Random;
 
@@ -24,13 +26,14 @@ public class AuthService extends AbstractService {
         return randString.toString();
     }
 
-    public UserEntity signIn(String login, String password)
-    {
+    public UserEntity signIn(String login, String password) throws Exception {
         QueryBuilder builder = this.repositoryUser.getBuilderQuery();
-        return ((UserEntity) builder.select()
-                .where(new SpecificationCriterion("login", login))
+        UserEntity userEntity = (UserEntity) builder.select()
                 .where(new SpecificationCriterion("password", password))
-                .getObject());
+                .where(new SpecificationCriterion("login", login))
+                .getObject();
+        //notNull(userEntity, new AuthException());
+        return userEntity;
     }
 
     public boolean checkToken(String token)
@@ -53,7 +56,7 @@ public class AuthService extends AbstractService {
         QueryBuilder builder = this.repositoryUser.getBuilderQuery();
         UserEntity user = (UserEntity) builder.select().
                 where(new SpecificationCriterion("token", token)).getObject();
-        notNull(user, new Exception(""));
+        notNull(user, new TokenException());
         return user;
     }
 

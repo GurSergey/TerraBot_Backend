@@ -23,11 +23,12 @@ public class TaskEntity implements EntityHibernate {
     @Column(name = "difficulty")
     @NotNull
     public int difficulty;
-    @OneToOne
-    @JoinTable(name = "field",
-            joinColumns = @JoinColumn(name="task_id"),
-            inverseJoinColumns = @JoinColumn(name="id")
-    )
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "field_id", referencedColumnName = "id")
+//    @JoinTable(name = "field",
+//            joinColumns = @JoinColumn(name="task_id"),
+//            inverseJoinColumns = @JoinColumn(name="id")
+//    )
     public FieldEntity field;
     @OneToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")

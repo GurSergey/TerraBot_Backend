@@ -20,12 +20,7 @@ public abstract class AbstractService {
             Object value = field.get(from);
             if (!Modifier.isStatic(field.getModifiers())
                     &&(value != null && !Objects.equals(field.getName().toLowerCase(), "id"))) {
-                if (field.get(from) instanceof AbstractEntity) {
-                    copyFieldsNotNull((AbstractEntity) field.get(from),
-                            (AbstractEntity) field.get(to), field.get(from).getClass());
-                } else {
                     field.set(to, value);
-                }
             }
 
         }

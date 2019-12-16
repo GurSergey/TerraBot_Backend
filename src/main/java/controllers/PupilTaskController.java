@@ -1,9 +1,7 @@
 package controllers;
 
-import entity.CommandEntity;
-import entity.IssueEntity;
-import entity.PupilEntity;
-import entity.TaskEntity;
+import controllers.views.TaskView;
+import entity.*;
 import services.IssueService;
 import services.RepositoryDB;
 import services.TaskForPupilService;
@@ -14,7 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class PupilTaskController extends Controller {
-    private static final String ID_TASK_PARAM = "task_id";
+    private static final String ID_TASK_PARAM = "task";
     private TaskForPupilService taskForPupilService;
 
     private static String STATUS_NOT_STARTED = "not_started";
@@ -38,6 +36,8 @@ public class PupilTaskController extends Controller {
 
     }
 
+
+
     public PupilTaskController()
     {
         taskForPupilService= new TaskForPupilService(
@@ -46,7 +46,7 @@ public class PupilTaskController extends Controller {
                 new RepositoryDB<>(IssueEntity.class));
     }
 
-    public void getList(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public void methodGetList(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         PupilEntity pupilEntity = (PupilEntity) getUserEntity(PupilEntity.class, req);
         IssueService issueService = new IssueService(
                 new RepositoryDB(PupilEntity.class),
@@ -68,7 +68,7 @@ public class PupilTaskController extends Controller {
             String status;
             if(setIdTaskWithIssue.containsKey(taskEntities[i].id))
             {
-                if(mark!=-1)
+                if(mark==-1)
                     status = STATUS_NOT_VERIFIED;
                 else
                     status = STATUS_VERIFIED;
@@ -86,11 +86,12 @@ public class PupilTaskController extends Controller {
         sendString(jsonGetterObject.toJson(taskViewList), resp);
     }
 
-    public void getTask(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public void methodGetTask(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         PupilEntity pupilEntity = (PupilEntity) getUserEntity(PupilEntity.class, req);
         int idTask = Integer.parseInt(req.getParameter(ID_TASK_PARAM));
         TaskEntity taskEntity = taskForPupilService.getTask(pupilEntity.id, idTask);
-        sendString(jsonGetterObject.toJson(taskEntity), resp);
+        TaskView taskView = new TaskView(taskEntity);
+        sendString(jsonGetterObject.toJson(taskView), resp);
     }
 //    public void methodTakeMyIssue(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 //        PupilEntity pupilEntity = (PupilEntity) getUserEntity(PupilEntity.class, req);

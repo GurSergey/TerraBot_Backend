@@ -1,5 +1,7 @@
 package controllers;
 
+import com.google.gson.GsonBuilder;
+import exception.ApplicationException;
 import org.apache.commons.text.WordUtils;
 import org.eclipse.jetty.server.Request;
 
@@ -54,21 +56,24 @@ public class MappingServlet extends HttpServlet {
             Object[] args = new Object[] { req, resp };
             method.invoke(controller, args);
         }
-        catch (ClassNotFoundException e)
+        catch (ClassNotFoundException | NoSuchMethodException e)
         {
             this.routeUnknown(resp);
-        }
-        catch (NoSuchMethodException e)
+        } catch ( IllegalAccessException e)
+
         {
-            this.routeUnknown(resp);
-        } catch (IllegalAccessException e) {
+//            PrintWriter out = resp.getWriter();
+//            GsonBuilder builder = new GsonBuilder();
+//            Gson gson = builder.create();
+//            out.print(e.toString());
             PrintWriter out = resp.getWriter();
-            out.print(e.toString());
-        } catch (InvocationTargetException e) { PrintWriter out = resp.getWriter();
             out.print(e.toString());
         } catch (InstantiationException e) {
             PrintWriter out = resp.getWriter();
             out.print(e.toString());
+        } catch (InvocationTargetException e) {
+            PrintWriter out = resp.getWriter();
+            out.print(e.getCause().toString());
         }
 
 

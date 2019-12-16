@@ -72,7 +72,7 @@ public class IssueService extends AbstractService {
         notNull(pupilEntity, new Exception());
 
         TaskEntity taskEntity = repositoryTask.findById(idTask);
-        if( repositoryIssue.getBuilderQuery().select().
+        if(repositoryIssue.getBuilderQuery().select().
                 where(new SpecificationCriterion("pupil", pupilEntity.id)).
                 where(new SpecificationCriterion("task", taskEntity.id)).
                 getObjects().length!=0)

@@ -1,30 +1,36 @@
 package services;
 
 import entity.*;
+import javafx.concurrent.Task;
 
 public class TaskForTeacherService extends AbstractService {
     Repository<TeacherEntity> repositoryTeacher;
     Repository<TaskEntity> repositoryTask;
+    Repository<FieldEntity> repositoryField;
 
     public TaskForTeacherService(Repository<TeacherEntity> repositoryTeacher,
-                                 Repository<TaskEntity> repositoryTask){
+                                 Repository<TaskEntity> repositoryTask,
+                                 Repository<FieldEntity> repositoryField){
         this.repositoryTask = repositoryTask;
         this.repositoryTeacher = repositoryTeacher;
+        this.repositoryField = repositoryField;
     }
 
     public void saveTask(int idTeacher, TaskEntity task) throws Exception {
         TeacherEntity teacherEntity = repositoryTeacher.findById(idTeacher);
         notNull(teacherEntity, new Exception());
+        task.owner = teacherEntity;
+        repositoryTask.save(task);
+    }
 
-        if(task.id != AbstractEntity.ID_DEFAULT_VALUE){
-            repositoryTask.save(task);
-        }
-        else
-        {
-            TaskEntity taskEntity = repositoryTask.findById(task.id);
-            notNull(taskEntity, new Exception());
-            repositoryTask.update(task);
-        }
+    public void updateTask(int idTeacher, TaskEntity taskEntity) throws Exception {
+        TeacherEntity teacherEntity = repositoryTeacher.findById(idTeacher);
+        notNull(teacherEntity, new Exception());
+        TaskEntity oldTaskEntity  = repositoryTask.findById(taskEntity.id);
+        notNull(oldTaskEntity, new Exception());
+        copyFieldsNotNull(taskEntity, oldTaskEntity, TaskEntity.class);
+        repositoryTask.update(oldTaskEntity);
+
     }
 
     public TaskEntity[] getMyTasks(int idTeacher){

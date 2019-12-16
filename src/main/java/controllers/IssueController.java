@@ -1,18 +1,15 @@
 package controllers;
 
+import controllers.getters.GetterCommand;
+import controllers.getters.GetterIssue;
 import controllers.views.IssueView;
 import controllers.views.ListIssueItem;
 import entity.*;
-import enumeration.CommandType;
-import services.AuthService;
 import services.IssueService;
 import services.RepositoryDB;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class IssueController extends Controller {
 
@@ -21,14 +18,6 @@ public class IssueController extends Controller {
     private final String NAME_TASK_PARAM = "task";
     private final String NAME_ID_ISSUE_PARAM = "issue";
     private final String NAME_ID_COMMAND_PARAM = "commands";
-    private class CommandGet
-    {
-        final int DEFAULT_PARENT_NUM = -1;
-        private int type;
-        private int number;
-        private int parent=DEFAULT_PARENT_NUM;
-        private int count;
-    }
 
     public IssueController()
     {
@@ -68,27 +57,25 @@ public class IssueController extends Controller {
         String issue = req.getParameter(NAME_ID_ISSUE_PARAM);
         String task = req.getParameter(NAME_TASK_PARAM);
         String commands = req.getParameter(NAME_ID_COMMAND_PARAM);
-        CommandGet[] commandGets = jsonGetterObject.fromJson(commands, CommandGet[].class);
+        GetterIssue getterIssue = jsonGetterObject.fromJson(commands, GetterIssue.class);
         PupilEntity pupilEntity = (PupilEntity) getUserEntity(PupilEntity.class, req);
-        CommandEntity[] commandEntities = new CommandEntity[commandGets.length];
+        CommandEntity[] commandEntities = new CommandEntity[getterIssue.commands.length];
         for(int i = 0; i < commandEntities.length; i++ )
         {
-            //HashMap<Integer, CommandEntity> map = new HashMap<>();
             commandEntities[i] = new CommandEntity();
-            commandEntities[i].number = commandGets[i].number;
-            commandEntities[i].type = commandGets[i].type;
-            commandEntities[i].repeat = commandGets[i].count;
-            if(commandGets[i].parent != commandGets[i].DEFAULT_PARENT_NUM)
+            commandEntities[i].number = getterIssue.commands[i].number;
+            commandEntities[i].type = getterIssue.commands[i].type;
+            commandEntities[i].repeat = getterIssue.commands[i].count;
+            if(getterIssue.commands[i].parent != GetterCommand.DEFAULT_PARENT_NUM)
             {
                 commandEntities[i].parent = commandEntities[commandEntities[i].number];
             }
-            //map.put(commandEntities[i].number, commandEntities[i]);
         }
 
-        if(issue!=null)
-            issueService.updateIssue(pupilEntity.id, commandEntities, Integer.parseInt(issue));
-        if(task!=null)
-            issueService.saveIssue(pupilEntity.id, commandEntities, Integer.parseInt(task));
+        if(getterIssue.issue!=null)
+            issueService.updateIssue(pupilEntity.id, commandEntities, getterIssue.issue);
+        if(getterIssue.task!=null)
+            issueService.saveIssue(pupilEntity.id, commandEntities, getterIssue.task);
 
         sendStandartAnswer(resp);
     }

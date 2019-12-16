@@ -14,12 +14,10 @@ public class FieldEntity implements EntityHibernate  {
     public int width;
     @Column(name = "height")
     public int height;
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.EAGER)
     public List<CellEntity> cells;
-    @OneToOne
-    @JoinTable(name = "cell",
-            joinColumns = @JoinColumn(name="field_id"),
-            inverseJoinColumns = @JoinColumn(name="id")
-    )
-    public TaskEntity task;
+//    @OneToOne
+//    @JoinColumn(name = "task_id", referencedColumnName = "id")
+//    public TaskEntity task;
 }

@@ -34,7 +34,7 @@ public class RepositoryDB <T extends AbstractEntity> implements Repository<T> {
 
         @Override
         public QueryBuilder where(SpecificationCriterion criterion) {
-            currentQuery.where(currentBuilder.equal(currentRoot.get(criterion.nameField), criterion.value));
+            currentQuery.where(currentBuilder.and(currentBuilder.equal(currentRoot.get(criterion.nameField), criterion.value)));
             return this;
         }
 

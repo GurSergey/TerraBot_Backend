@@ -31,13 +31,22 @@ public class AuthController extends Controller {
             this.role = role;}
     }
 
+    private class StatusToken
+    {
+        StatusToken(boolean valid)
+        {
+            this.valid = valid;
+        }
+        public boolean valid;
+    }
+
     public AuthController()
     {
         userAuthService = new AuthService(
                 new RepositoryDB(UserEntity.class));
     }
 
-    public void methodAuth(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public void methodAuth(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String login = req.getParameter(NAME_LOGIN_PARAM);
         String password = req.getParameter(NAME_PASSWORD_PARAM);
         UserEntity user = userAuthService.signIn(login, password);
@@ -48,7 +57,7 @@ public class AuthController extends Controller {
 
     public void methodCheckToken(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String token = req.getParameter(NAME_TOKEN_PARAM);
-        sendString(jsonGetterObject.toJson(userAuthService.checkToken(token)), resp);
+        sendString(jsonGetterObject.toJson(new StatusToken(userAuthService.checkToken(token))), resp);
     }
 
 }
