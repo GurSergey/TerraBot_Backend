@@ -1,6 +1,5 @@
 package services;
 import com.google.inject.Inject;
-import com.sun.codemodel.internal.JCatchBlock;
 import entity.AbstractEntity;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
